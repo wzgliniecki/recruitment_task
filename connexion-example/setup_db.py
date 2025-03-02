@@ -3,6 +3,7 @@ import os
 from app import app
 from lib.config import CONFIG
 from lib.models import db, User, Article
+from datetime import datetime, timedelta
 
 
 def setup_db():
@@ -22,6 +23,30 @@ def setup_db():
             author_user_id=user.user_id,
             title='Article title',
             content='No Pulitzer candidate here, lets focus on the code.'
+        ))
+        db.session.add(Article(
+            author_user_id=user.user_id,
+            title='Article title1',
+            content='No Pulitzer candidate here, lets focus on the code1.',
+            release_date = datetime.utcnow() - timedelta(365)
+        ))
+        db.session.add(Article(
+            author_user_id=user.user_id,
+            title='Article title2',
+            content='No Pulitzer candidate here, lets focus on the code2.',
+            release_date=datetime.utcnow() - timedelta(365*2)
+        ))
+        db.session.add(Article(
+            author_user_id=user.user_id,
+            title='Article title3',
+            content='No Pulitzer candidate here, lets focus on the code3.',
+            release_date=datetime.utcnow() - timedelta(365*3)
+        ))
+        db.session.add(Article(
+            author_user_id=user.user_id,
+            title='Article title4',
+            content='No Pulitzer candidate here, lets focus on the code4.',
+            release_date=datetime.utcnow() - timedelta(365*4)
         ))
 
         db.session.commit()

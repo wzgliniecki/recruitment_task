@@ -1,3 +1,7 @@
+from flask import request
+
+from sqlalchemy import extract
+
 from http import HTTPStatus
 
 from connexion import NoContent
@@ -6,15 +10,25 @@ from lib.models import Article, db
 
 
 def get(user):
-    articles = Article.query.filter(
-        Article.author_user_id == user['user_id']
-    ).all()
+    year = request.args.get('year')
+
+    query = Article.query.filter(Article.author_user_id == user['user_id'])
+
+    if year:
+        try:
+            year = int(year)
+            query = query.filter(extract('year', Article.release_date) == year)
+        except ValueError:
+            return {"error": "Invalid year parameter"}, HTTPStatus.BAD_REQUEST
+
+    articles = query.all()
 
     return [
        {
            'article_id': article.article_id,
            'title': article.title,
            'content': article.content,
+           'release_date': article.release_date.isoformat(),
        }
        for article in articles
     ], HTTPStatus.OK

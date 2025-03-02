@@ -26,3 +26,4 @@ class Article(db.Model):
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    release_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

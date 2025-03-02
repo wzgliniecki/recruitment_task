@@ -41,6 +41,14 @@ paths:
   /articles:
     get:
       summary: Get all user articles
+      parameters:
+        - name: year
+          in: query
+          required: false
+          description: The year by which you filter articles' release date.
+          schema:
+            type: integer
+            example: 2025
       operationId: lib.views.view_articles.get
       security:
         - jwt: [ ]
@@ -123,6 +131,11 @@ components:
           type: string
         content:
           type: string
+        release_date:
+          type: string
+          format: date-time
+          description: The release date of the article.
+          example: "2023-03-01T12:00:00Z"
       required:
         - article_id
         - title
